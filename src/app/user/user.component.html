@@ -1,0 +1,54 @@
+<p-table [value]="users"
+         selectionMode="single" [(selection)]="selectedUser" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="15">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>id</th>
+      <th>name</th>
+      <th>age</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData>
+    <tr [pSelectableRow]="rowData">
+      <td>{{rowData._id}}</td>
+      <td>{{rowData.name}}</td>
+      <td>{{rowData.age}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary" let-rowData>
+    <div style="text-align:left">
+      <button type="button" pButton icon="pi pi-plus" (click)="showDialogToAdd()" label="Add"></button>
+    </div>
+  </ng-template>
+</p-table>
+
+<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"  [style]="{width: 'auto'}">
+  <div class="p-grid" *ngIf="user">
+
+    <div class="p-col-4" *ngIf="!isNew">
+      <label for="id">Id</label>
+    </div>
+    <div class="p-col-8" *ngIf="!isNew">
+      <input pInputText id="id" [(ngModel)]="user._id" [readOnly]="true" style="width: 100%"/>
+    </div>
+
+    <div class="p-col-4">
+      <label for="name">Name</label>
+    </div>
+    <div class="p-col-8">
+      <input pInputText id="name" [(ngModel)]="user.name" style="width: 100%"/>
+    </div>
+
+    <div class="p-col-4">
+      <label for="age">Age</label>
+    </div>
+    <div class="p-col-8">
+      <input pInputText id="age" [(ngModel)]="user.age" style="width: 100%"/>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="pi pi-times" *ngIf="!isNew" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+    </div>
+  </p-footer>
+</p-dialog>
